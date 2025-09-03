@@ -28,7 +28,7 @@ jobs:
 
     - name: run data processing
       run: |
-        python python src//Users/bharathreddy/work/mlops/house-price-predictor/src/data/run_processing.py \   
+        python python src/Users/bharathreddy/work/mlops/house-price-predictor/src/data/run_processing.py \   
         --input /Users/bharathreddy/work/mlops/house-price-predictor/data/raw/house_data.csv \
         --output /Users/bharathreddy/work/mlops/house-price-predictor/data/processed/cleaned_house_data.csv 
 
