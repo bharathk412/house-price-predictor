@@ -28,13 +28,13 @@ jobs:
 
     - name: run data processing
       run: |
-        python python src/Users/bharathreddy/work/mlops/house-price-predictor/src/data/run_processing.py \   
+        python src/Users/bharathreddy/work/mlops/house-price-predictor/src/data/run_processing.py \   
         --input /Users/bharathreddy/work/mlops/house-price-predictor/data/raw/house_data.csv \
         --output /Users/bharathreddy/work/mlops/house-price-predictor/data/processed/cleaned_house_data.csv 
 
     - name: Do feature engineering
       run: |
-          python python src/features/engineer.py \   
+          python src/features/engineer.py \   
           --input /Users/bharathreddy/work/mlops/house-price-predictor/data/processed/cleaned_house_data.csv \
           --output /Users/bharathreddy/work/mlops/house-price-predictor/data/processed/processed/featured_house_data.csv \
           --preprocessor models/trained/preprocessor.pkl
@@ -42,7 +42,7 @@ jobs:
   
     - name: Train the model
       run: |
-        python python src/models/train_model.py \  
+        python src/models/train_model.py \  
         --config configs/model_config.yaml \ 
         --data /Users/bharathreddy/work/mlops/house-price-predictor/data/processed/featured_house_data.csv \
         --models-dir models
