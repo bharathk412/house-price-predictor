@@ -26,11 +26,11 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
 
-    - name: run data processing
+    - name: Run data processing
       run: |
-        python src/Users/bharathreddy/work/mlops/house-price-predictor/src/data/run_processing.py \   
-        --input /Users/bharathreddy/work/mlops/house-price-predictor/data/raw/house_data.csv \
-        --output /Users/bharathreddy/work/mlops/house-price-predictor/data/processed/cleaned_house_data.csv 
+          python src/data/run_processing.py \
+            --input data/raw/house_data.csv \
+            --output data/processed/cleaned_house_data.csv
 
     - name: Do feature engineering
       run: |
