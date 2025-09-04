@@ -1,11 +1,30 @@
 name: MLOps Pipeline
 
-on:
+on: 
+  workflow_dispatch:
+    inputs:
+      run_all:
+        description: 'Run all jobs'
+        required: false
+        default: 'true'
+      run_data-processing: 
+        description: 'Run data-processing jobs'
+        required: false
+        default: 'false'
+      run_model-training: 
+        description: 'Run model-training jobs'
+        required: false
+        default: 'false'
+      run_build_and_publish: 
+        description: 'Run build and publish job'
+        required: false
+        default: 'false'
+
   push:
     branches: [ main ]
     tags: [ 'v*.*.*' ]
-  pull_request:
-    branches: [ main ]
+  release:
+    types: [created]
 
 jobs:
   data-processing:
