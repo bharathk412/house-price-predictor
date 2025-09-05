@@ -60,10 +60,8 @@ def clean_data(df):
     
     return df_cleaned
 
-def process_data(input_file, output_file):
-    """Full data processing pipeline."""
-    # Create output directory if it doesn't exist
-    output_path = Path(output_file).parent
+def process_data(input_file: str, output_file: str):
+    output_path = Path(output_file).parent  # ✅ use parent of --output arg
     output_path.mkdir(parents=True, exist_ok=True)
     
     # Load data
