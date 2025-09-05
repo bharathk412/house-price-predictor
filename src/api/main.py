@@ -3,8 +3,13 @@ from fastapi.middleware.cors import CORSMiddleware
 from inference import predict_price, batch_predict
 from schemas import HousePredictionRequest, PredictionResponse
 from prometheus_fastapi_instrumentator import Instrumentator
+from pydantic import BaseModel
 
-# Initialize FastAPI app with metadata
+# Health response model
+class HealthResponse(BaseModel):
+    status: str
+    model_loaded: bool
+
 app = FastAPI(
     title="House Price Prediction API",
     description=(
@@ -24,7 +29,7 @@ app = FastAPI(
     },
 )
 
-# Add CORS middleware
+# CORS middleware
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -33,21 +38,20 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Initialize and instrument Prometheus metrics
+# Prometheus instrumentation
 Instrumentator().instrument(app).expose(app)
 
-
-# Health check endpoint
-@app.get("/health", response_model=dict)
+# Health endpoint
+@app.get("/health", response_model=HealthResponse)
 async def health_check():
-    return {"status": "healthy", "model_loaded": True}
+    return HealthResponse(status="healthy", model_loaded=True)
 
-# Prediction endpoint
+# Single prediction endpoint
 @app.post("/predict", response_model=PredictionResponse)
 async def predict(request: HousePredictionRequest):
     return predict_price(request)
 
 # Batch prediction endpoint
-@app.post("/batch-predict", response_model=list)
+@app.post("/batch-predict", response_model=list[PredictionResponse])
 async def batch_predict_endpoint(requests: list[HousePredictionRequest]):
     return batch_predict(requests)
