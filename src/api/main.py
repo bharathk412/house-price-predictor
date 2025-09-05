@@ -34,7 +34,6 @@ app.add_middleware(
 )
 
 # Initialize and instrument Prometheus metrics
-
 Instrumentator().instrument(app).expose(app)
 
 
