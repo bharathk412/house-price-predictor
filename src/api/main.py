@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Response
 from fastapi.middleware.cors import CORSMiddleware
 from inference import predict_price, batch_predict
 from schemas import HousePredictionRequest, PredictionResponse
@@ -39,7 +39,13 @@ app.add_middleware(
 )
 
 # Prometheus instrumentation
-Instrumentator().instrument(app).expose(app)
+instrumentator = Instrumentator().instrument(app)
+instrumentator.expose(app)  # Creates the hidden /metrics endpoint
+
+# Optional: Documented metrics endpoint (shows up in Swagger)
+@app.get("/metrics-docs", tags=["Metrics"])
+def get_metrics():
+    return Response(instrumentator.registry.generate_latest(), media_type="text/plain")
 
 # Health endpoint
 @app.get("/health", response_model=HealthResponse)
